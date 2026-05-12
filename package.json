@@ -1,0 +1,24 @@
+{
+  "name": "hsl_player",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.0.0",
+    "daisyui": "^5.5.19",
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^3.5.2",
+    "svelte": "^5.55.4",
+    "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "svelte-spa-router": "^5.1.0",
+    "tailwindcss": "^4.3.0"
+  }
+}
