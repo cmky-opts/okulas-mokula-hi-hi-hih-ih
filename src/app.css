@@ -1,2 +1,44 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+
+@theme {
+  --font-fifa2026: "fifa2026";
+  --font-integral: "fontspring-integralcf-bold";
+  --font-integral-medium: "fontspring-integralcf-medium";
+  --font-integral-extrabold: "fontspring-integralcf-extrabold";
+  --font-integral-heavy: "fontspring-integralcf-heavy";
+  --font-integral-bold: "fontspring-integralcf-bold";
+  --font-integral-regular: "fontspring-integralcf-regular";
+  }
+
+@font-face {
+  font-family: "fifa2026";
+  src: url("/fifa2026.ttf") format("truetype");
+}
+@font-face {
+  font-family: "fontspring-integralcf-bold";
+  src: url("/Fontspring-DEMO-integralcf-bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "fontspring-integralcf-medium";
+  src: url("/Fontspring-DEMO-integralcf-medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "fontspring-integralcf-extrabold";
+  src: url("/Fontspring-DEMO-integralcf-extrabold.otf") format("opentype");
+}
+@font-face {
+  font-family: "fontspring-integralcf-heavy";
+  src: url("/Fontspring-DEMO-integralcf-heavy.otf") format("opentype");
+}
+@font-face {
+  font-family: "fontspring-integralcf-bold";
+  src: url("/Fontspring-DEMO-integralcf-bold.otf") format("opentype");
+}
+@font-face {
+  font-family: "fontspring-integralcf-regular";
+  src: url("/Fontspring-DEMO-integralcf-regular.otf") format("opentype");
+}

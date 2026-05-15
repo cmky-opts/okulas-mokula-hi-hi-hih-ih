@@ -4,7 +4,7 @@
 
   let videoElement: HTMLVideoElement;
   let hls: Hls | null = null;
-  let streamUrl: string = "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8";
+  let streamUrl: string = "http://198.195.239.50:8095/Tsports/index.m3u8";
 
   function loadVideo(): void {
     if (hls) hls.destroy();
