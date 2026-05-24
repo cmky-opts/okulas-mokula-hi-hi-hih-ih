@@ -17,13 +17,11 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1048.0",
-    "@supabase/supabase-js": "^2.105.4",
     "@tailwindcss/vite": "^4.3.0",
     "dotenv": "^17.4.2",
     "firebase": "^12.13.0",
+    "quill": "^2.0.2",
     "svelte-spa-router": "^5.1.0",
-    "svelte-tiptap": "^3.0.1",
     "tailwindcss": "^4.3.0"
   }
 }

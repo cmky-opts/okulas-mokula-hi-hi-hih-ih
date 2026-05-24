@@ -13,7 +13,7 @@
     <div
       class="absolute inset-0 opacity-10 bg-cover bg-center"
       style="background-image: url({eventImage})"
-    />
+    ></div>
   {/if}
 
   <div
@@ -27,9 +27,9 @@
       <h1 class="text-3xl font-semibold text-white sm:text-4xl">
         {eventName}
       </h1>
-      <p class="max-w-2xl text-sm text-zinc-400 sm:text-base">
-        {eventDescription}
-      </p>
+      <div class="max-w-2xl text-sm text-zinc-400 sm:text-base prose prose-invert prose-sm">
+        {@html eventDescription}
+      </div>
       {#if matchCount > 0}
         <p class="text-xs uppercase tracking-[0.25em] text-emerald-300/70">
           {matchCount}

@@ -29,7 +29,7 @@
       <h1
         class="font-integral text-4xl md:text-6xl text-white leading-tight tracking-tight"
       >
-        FREE FOOTBALL <br /> HIGHLIGHTS ON DAZN
+        FREE FOOTBALL <br /> HIGHLIGHTS
       </h1>
 
       <p
@@ -39,11 +39,12 @@
         the Saudi Pro League.
       </p>
 
-      <button
-        class="bg-white text-black px-10 py-3 rounded font-bold hover:bg-zinc-200 transition-all uppercase tracking-wide"
+      <a
+        href="#featured-matches"
+        class="bg-white text-black px-10 py-3 rounded font-bold hover:bg-zinc-200 transition-all uppercase tracking-wide inline-block text-center"
       >
         Watch Free
-      </button>
+      </a>
     </div>
 
     <!-- Right: Featured Graphic (Optional overlay for the image_903b23.jpg) -->

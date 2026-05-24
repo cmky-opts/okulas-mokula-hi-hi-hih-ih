@@ -4,7 +4,7 @@
   import EventHeader from "./ui/EventHeader.svelte";
   import MatchesFilterBar from "./ui/MatchesFilterBar.svelte";
   import EmptyState from "./ui/EmptyState.svelte";
-  import { getEventById, filterMatchesByStatus } from "../lib/events.data";
+  import { getEventById, filterMatchesByStatus, getMatchesByEventIdFromFirestore } from "../lib/events.data";
 
   /** @type {{ eventId?: string }} */
   export let params = {};
@@ -16,16 +16,25 @@
   let event = null;
 
   /** @type {any[]} */
+  let allMatches = [];
+  /** @type {any[]} */
   let displayedMatches = [];
 
   // Load event data when component mounts or eventId changes
   $: if (params.eventId) {
-    event = getEventById(params.eventId);
-    updateDisplayedMatches();
+    loadEventData(params.eventId);
   }
 
+  const loadEventData = async (eventId) => {
+    event = await getEventById(eventId);
+    if (event) {
+      allMatches = await getMatchesByEventIdFromFirestore(eventId);
+      updateDisplayedMatches();
+    }
+  };
+
   // Update displayed matches based on filter
-  $: if (event) {
+  $: if (event && allMatches) {
     updateDisplayedMatches();
   }
 
@@ -34,7 +43,7 @@
       displayedMatches = [];
       return;
     }
-    displayedMatches = filterMatchesByStatus(event.matches, activeFilter);
+    displayedMatches = filterMatchesByStatus(allMatches, activeFilter);
   };
 
   /** @param {string} value */
@@ -47,7 +56,7 @@
   };
 </script>
 
-<section class="w-full bg-transparent py-10">
+<section class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full py-10 pt-20">
   <div class="mx-auto w-full max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
     <!-- Back Button -->
     <button
@@ -62,9 +71,9 @@
     {#if event}
       <EventHeader
         eventName={event.name}
-        eventImage={event.image}
+        eventImage={event.imageUrl || event.image}
         eventDescription={event.description}
-        matchCount={event.matches.length}
+        matchCount={allMatches.length}
       />
 
       <!-- Filter Bar -->
@@ -95,7 +104,9 @@
       {#if displayedMatches.length > 0}
         <div class="grid gap-6 xl:grid-cols-3">
           {#each displayedMatches as match (match.id)}
-            <MatchCard {...match} />
+            <a href="#/play?eventId={match.eventId || event.id}&matchId={match.id}" class="block h-full w-full">
+              <MatchCard {...match} homeLogo={match.homeLogoUrl} awayLogo={match.awayLogoUrl} />
+            </a>
           {/each}
         </div>
       {:else}

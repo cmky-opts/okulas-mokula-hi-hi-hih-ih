@@ -2,10 +2,8 @@
   let isOpen = false;
 
   const navLinks = [
-    { name: "হোম", href: "/" },
-    { name: "আমাদের সম্পর্কে", href: "/play" },
-    { name: "সেবা", href: "/play" },
-    { name: "যোগাযোগ", href: "/play" },
+    { name: "Home", href: "/" },
+    { name: "News", href: "/articles" }
   ];
 </script>
 

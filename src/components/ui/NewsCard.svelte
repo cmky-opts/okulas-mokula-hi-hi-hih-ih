@@ -26,7 +26,7 @@
   <!-- Image Section -->
   <figure class="w-1/3 shrink-0 overflow-hidden bg-black">
     <img
-      src={imgSrc || "https://via.placeholder.com/400x300?text=News"}
+      src={imgSrc}
       alt={title}
       class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
     />

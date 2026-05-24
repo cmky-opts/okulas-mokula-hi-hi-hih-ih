@@ -4,7 +4,7 @@
 
   let videoElement: HTMLVideoElement;
   let hls: Hls | null = null;
-  let streamUrl: string = "http://198.195.239.50:8095/Tsports/index.m3u8";
+  export let streamUrl: string = "";
 
   function loadVideo(): void {
     if (hls) hls.destroy();
@@ -23,7 +23,13 @@
     }
   }
 
-  onMount(() => loadVideo());
+  onMount(() => {
+    if (streamUrl) loadVideo();
+  });
+  
+  $: if (streamUrl && videoElement) {
+    loadVideo();
+  }
   onDestroy(() => {
     if (hls) hls.destroy();
   });

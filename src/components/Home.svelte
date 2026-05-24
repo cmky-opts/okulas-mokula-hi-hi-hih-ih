@@ -1,16 +1,31 @@
 <script>
+  import { onMount } from "svelte";
   import { push } from "svelte-spa-router";
   import Card from "./ui/Card.svelte";
-  import HeroCard from "./ui/HeroCard.svelte";
+  import MatchCard from "./ui/MatchCard.svelte";
   import NewsCard from "./ui/NewsCard.svelte";
   import Hero from "./ui/Hero.svelte";
-  import { events } from "../lib/events.data";
+  import {
+    getEventsFromFirestore,
+    getAllFeaturedMatches,
+  } from "../lib/events.data";
   import { getPaginatedArticles } from "../lib/articles.data";
 
-  const logo = "/Logo-01.png";
+  let homeEvents = [];
+  let featuredMatches = [];
+  /** @type {{ id: string; title?: string; date?: string; imageUrl?: string; image?: string }[]} */
+  let homeArticles = [];
 
-  // Get first 6 articles for home page preview
-  const homeArticles = getPaginatedArticles(1, 6);
+  onMount(async () => {
+    const [fetchedEvents, fetchedMatches, fetchedArticles] = await Promise.all([
+      getEventsFromFirestore(),
+      getAllFeaturedMatches(),
+      getPaginatedArticles(1, 6),
+    ]);
+    homeEvents = fetchedEvents;
+    featuredMatches = fetchedMatches;
+    homeArticles = fetchedArticles;
+  });
 
   const handleSeeMore = () => {
     push("/articles");
@@ -42,10 +57,10 @@
     <div
       class="flex w-full flex-col items-center justify-center gap-10 md:flex-row"
     >
-      {#each events as event (event.id)}
+      {#each homeEvents as event (event.id)}
         <div class="flex w-full justify-center md:w-1/3">
           <Card
-            imgSrc={event.image}
+            imgSrc={event.image || event.imageUrl}
             eventId={event.id}
             eventName={event.name}
           />
@@ -54,23 +69,32 @@
     </div>
   </div>
 
-  <!-- Wrapper 2: HeroCards -->
+  <!-- Wrapper 2: Featured Matches -->
   <div
+    id="featured-matches"
     class="flex w-full max-w-6xl flex-col items-center justify-center gap-8 rounded-xl border border-white/10 bg-transparent hover:bg-zinc-900 mt-10 p-6 shadow-[0_0_20px_rgba(255,255,255,0.05)]"
   >
     <!-- Text stays on top because parent is flex-col -->
     <p
       class="w-full text-center font-integral-extrabold text-2xl text-white md:text-4xl"
     >
-      Matches
+      Featured Matches
     </p>
 
     <!-- Inner div handles the card orientation -->
-    <div
-      class="flex w-full flex-col items-center justify-center gap-6 md:flex-row"
-    >
-      <HeroCard imgSrc={logo} />
-      <HeroCard imgSrc={logo} />
+    <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+      {#each featuredMatches as match (match.id)}
+        <a
+          href="#/play?eventId={match.eventId}&matchId={match.id}"
+          class="block h-full w-full"
+        >
+          <MatchCard
+            {...match}
+            homeLogo={match.homeLogoUrl}
+            awayLogo={match.awayLogoUrl}
+          />
+        </a>
+      {/each}
     </div>
   </div>
 
@@ -97,7 +121,7 @@
     <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {#each homeArticles as article (article.id)}
         <NewsCard
-          imgSrc={article.image}
+          imgSrc={article.imageUrl || article.image}
           title={article.title}
           date={article.date}
           articleId={article.id}

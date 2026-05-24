@@ -1,8 +1,8 @@
 <script>
   export let homeTeam = "Home Team";
   export let awayTeam = "Away Team";
-  export let homeLogo = "https://via.placeholder.com/80?text=H";
-  export let awayLogo = "https://via.placeholder.com/80?text=A";
+  export let homeLogo = "";
+  export let awayLogo = "";
   export let dateTime = "TBD";
   export let venue = "Unknown Venue";
   export let tournament = "League";

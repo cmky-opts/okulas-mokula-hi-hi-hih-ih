@@ -10,7 +10,9 @@
 
   // Load article data when component mounts or articleId changes
   $: if (params.articleId) {
-    article = getArticleById(params.articleId);
+    getArticleById(params.articleId).then(data => {
+      article = data;
+    });
   }
 
   const handleBackClick = () => {
@@ -18,7 +20,13 @@
   };
 </script>
 
-<section class="w-full bg-transparent py-10">
+<svelte:head>
+  {#if article && article.tags && article.tags.length > 0}
+    <meta name="keywords" content={article.tags.join(', ')} />
+  {/if}
+</svelte:head>
+
+<section class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full py-10 pt-20">
   <div class="mx-auto w-full max-w-4xl space-y-6 px-4 sm:px-6 lg:px-8">
     <!-- Back Button -->
     <button
@@ -30,15 +38,16 @@
     </button>
 
     {#if article}
-      <!-- Article Header -->
+
+      <!-- Single Seamless Article Card -->
       <div
-        class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md overflow-hidden"
+        class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 sm:p-8 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md overflow-hidden"
       >
         <!-- Featured Image -->
-        {#if article.image}
+        {#if article.imageUrl}
           <div class="mb-6 overflow-hidden rounded-xl">
             <img
-              src={article.image}
+              src={article.imageUrl}
               alt={article.title}
               class="h-64 w-full object-cover transition-transform duration-300 hover:scale-105"
             />
@@ -63,73 +72,25 @@
           <h1 class="text-3xl font-semibold text-white sm:text-4xl">
             {article.title}
           </h1>
-
-          <!-- Author -->
-          <div class="border-t border-white/10 pt-4">
-            <p class="text-sm text-zinc-400">
-              By <span class="text-white font-semibold">{article.author}</span>
-            </p>
-          </div>
         </div>
-      </div>
 
-      <!-- Article Content -->
-      <div
-        class="rounded-3xl border border-white/10 bg-zinc-900/50 p-6 sm:p-8 shadow-[0_0_40px_rgba(0,0,0,0.15)] backdrop-blur-md"
-      >
-        <div class="prose prose-invert max-w-none">
-          <p class="text-lg leading-relaxed text-zinc-200">
-            {article.content}
-          </p>
-
-          <!-- Extended content placeholder for longer articles -->
-          <div class="mt-8 space-y-6 text-base leading-relaxed text-zinc-300">
-            <p>
-              This article covers all the important details and analysis related
-              to the topic. Our team has conducted thorough research and
-              interviews to bring you the most accurate and up-to-date
-              information.
-            </p>
-            <p>
-              The implications of these developments extend across multiple
-              dimensions of the sport, affecting team strategies, player morale,
-              and fan engagement. We've analyzed various perspectives to provide
-              comprehensive coverage.
-            </p>
-            <p>
-              Stay tuned for follow-up reports and updates as the situation
-              develops. Our dedicated team will continue monitoring and
-              reporting on all significant developments in the coming weeks.
-            </p>
+        <!-- Article Content -->
+        <div class="mt-8 pt-8 border-t border-white/10">
+          <div class="prose prose-invert max-w-none text-zinc-200">
+            {@html article.content}
           </div>
         </div>
 
-        <!-- Share Section -->
-        <div
-          class="mt-8 border-t border-white/10 pt-6 flex items-center justify-between flex-wrap gap-4"
-        >
-          <p class="text-sm text-zinc-400">Share this article:</p>
-          <div class="flex gap-3">
-            <button
-              type="button"
-              class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:border-white/20 hover:bg-white/10"
-            >
-              Twitter
-            </button>
-            <button
-              type="button"
-              class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:border-white/20 hover:bg-white/10"
-            >
-              Facebook
-            </button>
-            <button
-              type="button"
-              class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white transition hover:border-white/20 hover:bg-white/10"
-            >
-              Copy Link
-            </button>
+        <!-- Tags Section -->
+        {#if article.tags && article.tags.length > 0}
+          <div class="mt-8 border-t border-white/10 pt-6 flex flex-wrap gap-2">
+            {#each article.tags as tag}
+              <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1 text-xs text-zinc-300">
+                #{tag}
+              </span>
+            {/each}
           </div>
-        </div>
+        {/if}
       </div>
     {:else}
       <!-- Article Not Found -->

@@ -6,8 +6,17 @@
   let currentPage = 1;
   const itemsPerPage = 6;
 
-  $: articles = getPaginatedArticles(currentPage, itemsPerPage);
-  $: totalPages = getTotalPages(itemsPerPage);
+  let articles = [];
+  let totalPages = 1;
+
+  $: {
+    getPaginatedArticles(currentPage, itemsPerPage).then(res => {
+      articles = res;
+    });
+    getTotalPages(itemsPerPage).then(res => {
+      totalPages = res;
+    });
+  }
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -28,7 +37,7 @@
   };
 </script>
 
-<section class="w-full bg-transparent py-10">
+<section class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full py-10 pt-20">
   <div class="mx-auto w-full max-w-6xl space-y-6 px-4 sm:px-6 lg:px-8">
     <!-- Back Button -->
     <button
@@ -61,7 +70,7 @@
     <div class="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {#each articles as article (article.id)}
         <NewsCard
-          imgSrc={article.image}
+          imgSrc={article.imageUrl}
           title={article.title}
           date={article.date}
           articleId={article.id}
