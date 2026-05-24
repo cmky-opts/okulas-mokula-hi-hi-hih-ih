@@ -4,6 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [svelte(), tailwindcss()],
-  // This is the magic line that fixes the white screen
-  base: "/free-football-for-everyone/",
+  // This MUST match the name in your URL exactly!
+  base: "/okulas-mokula-hi-hi-hih-ih/",
 });
