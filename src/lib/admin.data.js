@@ -47,10 +47,26 @@ export const saveMatch = async (eventId, matchData) => {
   }
 };
 
+export const setMatchOrder = async (eventId, matchId, sortOrder) => {
+  if (!db) throw new Error("Firestore not initialized");
+  await updateDoc(doc(db, "events", eventId, "matches", matchId), {
+    sortOrder: Number(sortOrder),
+    updatedAt: serverTimestamp(),
+  });
+};
+
 export const setMatchFeatured = async (eventId, matchId, featured) => {
   if (!db) throw new Error("Firestore not initialized");
   await updateDoc(doc(db, "events", eventId, "matches", matchId), {
     featured: featured,
+    updatedAt: serverTimestamp(),
+  });
+};
+
+export const setMatchShowPlayer = async (eventId, matchId, showPlayer) => {
+  if (!db) throw new Error("Firestore not initialized");
+  await updateDoc(doc(db, "events", eventId, "matches", matchId), {
+    showPlayer: showPlayer,
     updatedAt: serverTimestamp(),
   });
 };

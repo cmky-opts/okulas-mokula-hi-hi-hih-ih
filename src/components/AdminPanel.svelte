@@ -18,6 +18,8 @@
     saveEvent,
     saveMatch,
     setMatchFeatured,
+    setMatchShowPlayer,
+    setMatchOrder,
     getAllArticles,
     saveArticle,
     getArticleById,
@@ -25,6 +27,7 @@
     deleteMatch,
     deleteArticle,
   } from "../lib/admin.data";
+  import { sortMatchesByOrder } from "../lib/events.data";
 
   let activeTab = "events";
   let user = null;
@@ -62,6 +65,9 @@
     score: "-",
     phase: "",
     featured: false,
+    showPlayer: true,
+    sortOrder: null,
+    description: "",
     links: [{ label: "", url: "" }],
   };
 
@@ -79,6 +85,7 @@
 
   let eventQuill;
   let articleQuill;
+  let matchQuill;
 
   function initEventQuill(node) {
     eventQuill = new Quill(node, {
@@ -110,8 +117,24 @@
     };
   }
 
+  function initMatchQuill(node) {
+    matchQuill = new Quill(node, {
+      theme: "snow",
+    });
+    matchQuill.root.innerHTML = matchForm.description;
+    matchQuill.on("text-change", () => {
+      matchForm.description = matchQuill.root.innerHTML;
+    });
+    return {
+      destroy() {
+        matchQuill = null;
+      }
+    };
+  }
+
   let globalError = "";
   let featuredError = "";
+  let orderError = "";
   let loadingEvents = false;
   let loadingMatches = false;
   let loadingArticles = false;
@@ -144,7 +167,7 @@
     }
     loadingMatches = true;
     try {
-      matches = await getEventMatches(selectedEventId);
+      matches = sortMatchesByOrder(await getEventMatches(selectedEventId));
     } catch (error) {
       globalError = "Unable to load matches for this event.";
       console.error(error);
@@ -193,8 +216,14 @@
       score: "-",
       phase: "",
       featured: false,
+      showPlayer: true,
+      sortOrder: null,
+      description: "",
       links: [{ label: "", url: "" }],
     };
+    if (matchQuill) {
+      matchQuill.root.innerHTML = matchForm.description;
+    }
   };
 
   const resetArticleForm = () => {
@@ -324,6 +353,20 @@
     }
   };
 
+  const handleOrderSave = async (matchId, value) => {
+    const order = value === "" ? null : Number(value);
+    const taken = matches.some(
+      (m) => m.id !== matchId && m.sortOrder === order
+    );
+    if (taken) {
+      orderError = `Position ${order} is already assigned to another match.`;
+      return;
+    }
+    orderError = "";
+    await setMatchOrder(selectedEventId, matchId, order);
+    await loadMatches();
+  };
+
   const editMatch = (match) => {
     matchForm = {
       id: match.id,
@@ -340,8 +383,14 @@
       score: match.score || "-",
       phase: match.phase || "",
       featured: match.featured || false,
+      showPlayer: match.showPlayer !== undefined ? match.showPlayer : true,
+      sortOrder: match.sortOrder ?? null,
+      description: match.description || "",
       links: match.links?.slice(0, 4) || [{ label: "", url: "" }],
     };
+    if (matchQuill) {
+      matchQuill.root.innerHTML = matchForm.description;
+    }
   };
 
   const toggleFeaturedMatch = async (match) => {
@@ -354,6 +403,12 @@
     }
     featuredError = "";
     await setMatchFeatured(selectedEventId, match.id, !match.featured);
+    await loadMatches();
+  };
+
+  const toggleShowPlayer = async (match) => {
+    const show = match.showPlayer !== false;
+    await setMatchShowPlayer(selectedEventId, match.id, !show);
     await loadMatches();
   };
 
@@ -785,27 +840,48 @@
                       <div
                         class="rounded-3xl border border-white/10 bg-zinc-950/80 p-4"
                       >
-                        <div
-                          class="flex flex-wrap items-start justify-between gap-4"
-                        >
-                          <div>
-                            <p class="text-sm text-sky-300/80">
-                              {match.tournament}
-                            </p>
-                            <h3 class="text-xl font-semibold text-white">
-                              {match.homeTeam} vs {match.awayTeam}
-                            </h3>
-                            <p class="text-sm text-zinc-400">
-                              {match.dateTime} · {match.venue}
-                            </p>
-                          </div>
-                          <div class="flex flex-col gap-2">
-                            <ToggleSwitch
-                              checked={match.featured}
-                              label={match.featured ? "Featured" : "Feature"}
-                              on:change={() => toggleFeaturedMatch(match)}
-                            />
-                            <div class="flex gap-2 mt-2">
+                         <div
+                           class="flex flex-wrap items-start justify-between gap-4"
+                         >
+                           <div class="flex items-start gap-4">
+                             <div class="flex flex-col items-center gap-1 pt-1">
+                               <span class="text-xs text-zinc-500 uppercase tracking-wider">Pos</span>
+                               <input
+                                 type="number"
+                                 min="0"
+                                 max="99"
+                                 value={match.sortOrder ?? ""}
+                                 placeholder="--"
+                                 on:change={(e) => handleOrderSave(match.id, e.target.value)}
+                                 class="w-14 rounded-lg border border-white/10 bg-zinc-950 px-2 py-1.5 text-center text-sm text-white outline-none focus:border-emerald-500 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                               />
+                             </div>
+                             <div>
+                               <p class="text-sm text-sky-300/80">
+                                 {match.tournament}
+                               </p>
+                               <h3 class="text-xl font-semibold text-white">
+                                 {match.homeTeam} vs {match.awayTeam}
+                               </h3>
+                               <p class="text-sm text-zinc-400">
+                                 {match.dateTime} · {match.venue}
+                               </p>
+                             </div>
+                           </div>
+                            <div class="flex flex-col gap-2">
+                              <div class="flex items-center gap-2">
+                               <ToggleSwitch
+                                checked={match.featured}
+                                label={match.featured ? "Featured" : "Feature"}
+                                on:change={() => toggleFeaturedMatch(match)}
+                              />
+                              <ToggleSwitch
+                                checked={match.showPlayer !== false}
+                                label={match.showPlayer !== false ? "Player On" : "Player Off"}
+                                on:change={() => toggleShowPlayer(match)}
+                              />
+                             </div>
+                            <div class="flex gap-2">
                               <button
                                 type="button"
                                 on:click={() => editMatch(match)}
@@ -825,6 +901,13 @@
                         </div>
                       </div>
                     {/each}
+                  </div>
+                {/if}
+                {#if orderError}
+                  <div
+                    class="mt-4 rounded-3xl bg-rose-500/10 p-3 text-sm text-rose-200"
+                  >
+                    {orderError}
                   </div>
                 {/if}
                 {#if featuredError}
@@ -1007,6 +1090,12 @@
                           </button>
                         </div>
                       {/each}
+                    </div>
+                    <div>
+                      <label class="block text-sm text-zinc-300 mb-2">Description</label>
+                      <div class="rounded-xl overflow-hidden border border-white/10 bg-white text-black min-h-[200px]">
+                        <div use:initMatchQuill></div>
+                      </div>
                     </div>
                     <button
                       type="button"

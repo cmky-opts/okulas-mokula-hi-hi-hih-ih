@@ -1,5 +1,6 @@
 <script>
   let isOpen = false;
+  import logo from "../../assets/WORLDCUP2026LIVE-01.png"
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -30,7 +31,7 @@
         class="flex shrink-0 items-center  text-2xl font-black tracking-tighter text-white uppercase hover:cursor-pointer"
         onclick={navigateHome}
       >
-        <img src="src/assets/WORLDCUP2026LIVE-01.png" alt="logo" class="h-30 w-auto " >
+        <img src={logo} alt="logo" class="h-30 w-auto " >
       </button>
 
       <!-- Desktop Menu -->

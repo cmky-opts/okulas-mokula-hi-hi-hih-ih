@@ -1,7 +1,8 @@
 <script>
-  // Placeholder for carousel logic
+  
   let activeSlide = 0;
   const slides = [0, 1, 2, 3];
+  import heroImage from "/495932177544.jpeg"
 </script>
 
 <section
@@ -13,7 +14,7 @@
       class="absolute inset-0 bg-linear-to-r from-black via-black/60 to-transparent z-10"
     ></div>
     <img
-      src="public/495932177544.jpeg"
+      src={heroImage}
       alt="Hero Background"
       class="w-full h-full object-cover opacity-70 img-ink"
     />

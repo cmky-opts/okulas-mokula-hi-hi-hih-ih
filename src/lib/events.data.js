@@ -122,6 +122,17 @@ export const getAllFeaturedMatches = async () => {
   return [];
 };
 
+export const sortMatchesByOrder = (matches) => {
+  return [...matches].sort((a, b) => {
+    if (a.featured && !b.featured) return -1;
+    if (!a.featured && b.featured) return 1;
+    const aOrder = a.sortOrder ?? 999;
+    const bOrder = b.sortOrder ?? 999;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0);
+  });
+};
+
 export const filterMatchesByStatus = (matches, status) => {
   if (status === "all") return matches;
   return matches.filter((match) => match.status === status);

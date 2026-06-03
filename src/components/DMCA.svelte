@@ -30,7 +30,7 @@
 
     <div class="border border-white/10 bg-black/80 p-6 sm:p-8 space-y-6 text-stone-200 font-serif leading-relaxed">
       <p>
-        [Insert Brand Name] respects the intellectual property rights of others and expects its users to do the same. 
+        Sports Live respects the intellectual property rights of others and expects its users to do the same. 
         In accordance with the Digital Millennium Copyright Act of 1998, we will respond expeditiously to claims of 
         copyright infringement committed using our platform.
       </p>
@@ -56,8 +56,8 @@
         Please send your DMCA notice to our designated agent at:
       </p>
       <div class="border border-white/10 bg-black/40 p-4 mt-2 text-sm">
-        <p><strong class="text-white">Email:</strong> [Insert DMCA Email Address]</p>
-        <p><strong class="text-white">Address:</strong> [Insert Physical Address]</p>
+        <p><strong class="text-white">Email:</strong>WorldCup2026.fever@protonmail.com</p>
+        
       </div>
 
       <h2 class="print-headline text-xl text-white mt-8 mb-3">Counter-Notice</h2>

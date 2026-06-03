@@ -23,64 +23,40 @@
           Disclaimer
         </h1>
         <p class="max-w-2xl text-sm text-zinc-400 uppercase tracking-wider">
-          Important notices regarding content, accuracy, and liability.
+          Information regarding scores, match facts, and content reliability.
         </p>
       </div>
     </div>
 
     <div class="border border-white/10 bg-black/80 p-6 sm:p-8 space-y-6 text-stone-200 font-serif leading-relaxed">
       <p>
-        <strong class="text-white">Last Updated:</strong> [Insert Date]
+        <strong class="text-white">Last Updated:</strong> June 2026
       </p>
 
-      <h2 class="print-headline text-xl text-white mt-8 mb-3">General Information</h2>
+      <h2 class="print-headline text-xl text-white mt-8 mb-3">Scores & Match Information</h2>
       <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
       <p>
-        The information provided on [Insert Website URL] ("the Site") is for general informational and 
-        entertainment purposes only. All content on the Site is provided in good faith; however, we make no 
-        representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, 
-        reliability, availability, or completeness of any information on the Site.
+        All live scores, match timings, and upcoming event data provided on worldcup2026live.xyz are intended solely for informational and entertainment purposes. While we strive to display real-time updates, technical delays or data inconsistencies from third-party sources can occur. We do not guarantee the 100% accuracy or real-time precision of any scoreline or fixture timing.
+      </p>
+
+      <h2 class="print-headline text-xl text-white mt-8 mb-3">Fun Facts & Content</h2>
+      <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
+      <p>
+        The fun facts, trivia, and commentary regarding matches or events are published in good faith for general knowledge and fan engagement. They do not constitute official statements, expert analysis, or professional advice. 
       </p>
 
       <h2 class="print-headline text-xl text-white mt-8 mb-3">External Links Disclaimer</h2>
       <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
       <p>
-        The Site may contain links to external websites that are not provided or maintained by or in any way 
-        affiliated with [Insert Brand Name]. We do not guarantee the accuracy, relevance, timeliness, or 
-        completeness of any information on these external websites.
-      </p>
-
-      <h2 class="print-headline text-xl text-white mt-8 mb-3">Content Disclaimer</h2>
-      <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
-      <p>
-        The views and opinions expressed in articles, predictions, and other content on the Site are those of 
-        the authors and do not necessarily reflect the official policy or position of [Insert Brand Name]. 
-        Any content provided by our authors is of their opinion and is not intended to malign any religion, 
-        ethnic group, club, organization, company, individual, or anyone or anything.
-      </p>
-
-      <h2 class="print-headline text-xl text-white mt-8 mb-3">No Professional Advice</h2>
-      <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
-      <p>
-        The content on the Site is not intended to be a substitute for professional advice. Always seek the 
-        advice of qualified professionals regarding any questions you may have. Reliance on any information 
-        provided on the Site is solely at your own risk.
+        Our platform may contain links or embeds directing to external websites or media streams. These external resources are managed by third parties and are not affiliated with us. We do not control, endorse, or assume responsibility for the content, quality, or reliability of these external streams and web platforms.
       </p>
 
       <h2 class="print-headline text-xl text-white mt-8 mb-3">Limitation of Liability</h2>
       <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
       <p>
-        In no event shall [Insert Brand Name] or its affiliates be liable for any direct, indirect, incidental, 
-        special, consequential, or punitive damages arising out of or relating to your use of the Site or any 
-        content therein.
+        Under no circumstances shall Sports Live be held responsible or liable for any decisions made, actions taken, or losses incurred based on the score updates, trivia, or timelines provided on this website. Relying on the data presented here is completely at your own risk.
       </p>
 
-      <h2 class="print-headline text-xl text-white mt-8 mb-3">Contact Us</h2>
-      <div class="h-0.5 w-16 bg-red-700/70 mb-4"></div>
-      <p>
-        If you have any questions about this Disclaimer, please contact us at 
-        <a href="mailto:[Insert Email Address]" class="text-red-400 underline hover:text-red-300">[Insert Email Address]</a>.
-      </p>
-    </div>
+      
   </div>
 </section>

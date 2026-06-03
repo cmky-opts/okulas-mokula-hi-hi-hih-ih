@@ -4,7 +4,7 @@
   import EventHeader from "./ui/EventHeader.svelte";
   import MatchesFilterBar from "./ui/MatchesFilterBar.svelte";
   import EmptyState from "./ui/EmptyState.svelte";
-  import { getEventById, filterMatchesByStatus, getMatchesByEventIdFromFirestore } from "../lib/events.data";
+  import { getEventById, filterMatchesByStatus, getMatchesByEventIdFromFirestore, sortMatchesByOrder } from "../lib/events.data";
 
   /** @type {{ eventId?: string }} */
   export let params = {};
@@ -28,7 +28,7 @@
   const loadEventData = async (eventId) => {
     event = await getEventById(eventId);
     if (event) {
-      allMatches = await getMatchesByEventIdFromFirestore(eventId);
+      allMatches = sortMatchesByOrder(await getMatchesByEventIdFromFirestore(eventId));
       updateDisplayedMatches();
     }
   };
@@ -43,7 +43,7 @@
       displayedMatches = [];
       return;
     }
-    displayedMatches = filterMatchesByStatus(allMatches, activeFilter);
+    displayedMatches = sortMatchesByOrder(filterMatchesByStatus(allMatches, activeFilter));
   };
 
   /** @param {string} value */

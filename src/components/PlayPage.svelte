@@ -48,29 +48,40 @@
       </div>
     {/if}
 
-    <!-- Main Player -->
-    <div class="w-auto m-0">
-      <Player {streamUrl} />
-    </div>
-
-    <!-- Servers -->
-    {#if match && match.links && match.links.length > 0}
-      <div class="flex flex-wrap justify-center gap-2 md:gap-4 w-full px-4">
-        {#each match.links as link, index (index)}
-          <button
-            type="button"
-            on:click={() => selectServer(link.url)}
-            class="action-label border px-3 py-1.5 transition-all md:px-6 md:py-2
-            {activeServerUrl === link.url ? 'bg-emerald-500/20 border-emerald-500 text-white' : 'border-white/10 bg-black text-zinc-300 hover:border-white/40 hover:text-white'}"
-          >
-            {link.label || `Server ${index + 1}`}
-          </button>
-        {/each}
+    {#if match && match.showPlayer !== false}
+      <!-- Main Player -->
+      <div class="w-auto m-0">
+        <Player {streamUrl} />
       </div>
-    {:else if match}
-      <p class="text-zinc-500 action-label">No streaming links available yet.</p>
-    {:else}
+
+      <!-- Servers -->
+      {#if match.links && match.links.length > 0}
+        <div class="flex flex-wrap justify-center gap-2 md:gap-4 w-full px-4">
+          {#each match.links as link, index (index)}
+            <button
+              type="button"
+              on:click={() => selectServer(link.url)}
+              class="action-label border px-3 py-1.5 transition-all md:px-6 md:py-2
+              {activeServerUrl === link.url ? 'bg-emerald-500/20 border-emerald-500 text-white' : 'border-white/10 bg-black text-zinc-300 hover:border-white/40 hover:text-white'}"
+            >
+              {link.label || `Server ${index + 1}`}
+            </button>
+          {/each}
+        </div>
+      {:else}
+        <p class="text-zinc-500 action-label">No streaming links available yet.</p>
+      {/if}
+    {:else if !match}
       <p class="text-zinc-500 action-label">Loading match details...</p>
+    {/if}
+
+    {#if match && match.description}
+      <div class="w-full border border-white/10 bg-black/80 p-6">
+        <h2 class="print-headline text-lg text-white mb-3">Match Details</h2>
+        <div class="playpage-description text-stone-200 font-serif text-sm leading-relaxed">
+          {@html match.description}
+        </div>
+      </div>
     {/if}
 
     <!-- Bottom Ad Space -->
@@ -81,3 +92,37 @@
     </div>
   </div>
 </div>
+
+<style>
+  .playpage-description :global(p) {
+    margin-bottom: 0.5rem;
+  }
+  .playpage-description :global(strong),
+  .playpage-description :global(b) {
+    color: #ffffff;
+    font-weight: 700;
+  }
+  .playpage-description :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .playpage-description :global(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .playpage-description :global(li) {
+    margin-bottom: 0.125rem;
+  }
+  .playpage-description :global(a) {
+    color: #f87171;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .playpage-description :global(a:hover) {
+    color: #fca5a5;
+  }
+</style>
