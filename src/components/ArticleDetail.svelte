@@ -119,8 +119,8 @@
                   Related Articles
                 </h3>
                 <div
-                  class="grid gap-3"
-                  style="grid-template-columns: repeat({gridCols}, minmax(0, 1fr))"
+                  class="suggested-grid grid gap-3"
+                  style="--cols: {gridCols}"
                 >
                   {#each suggestedArticles as suggested}
                     <NewsCard
@@ -210,5 +210,15 @@
   .article-body-content :global(img) {
     filter: grayscale(100%) contrast(150%);
     mix-blend-mode: multiply;
+  }
+
+  .suggested-grid {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .suggested-grid {
+      grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    }
   }
 </style>
