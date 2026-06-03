@@ -31,23 +31,20 @@
   };
 </script>
 
-<!-- Updated min-h-screen and background to match Home.svelte theme -->
-<div class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full flex flex-col items-center">
+<div class="min-h-screen bg-texture w-full flex flex-col items-center border-b border-white/10">
   <div class="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 p-4 pt-10">
     <!-- Top Ad Space -->
     <div
-      class="flex h-24 w-full items-center justify-center rounded border border-dashed border-white/20 bg-zinc-900/50"
+      class="flex h-24 w-full items-center justify-center border border-dashed border-white/20 bg-black/60"
     >
-      <span class="text-[10px] uppercase tracking-widest text-zinc-600"
-        >Advertisement</span
-      >
+      <span class="action-label text-zinc-600">Advertisement</span>
     </div>
 
     {#if match}
       <!-- Match Info Header -->
       <div class="w-full text-center space-y-1">
-        <h1 class="text-xl font-bold text-white uppercase tracking-wider">{match.homeTeam} vs {match.awayTeam}</h1>
-        <p class="text-xs text-emerald-400 font-semibold tracking-[0.2em]">{match.tournament}</p>
+        <h1 class="print-headline text-xl md:text-2xl text-white">{match.homeTeam} vs {match.awayTeam}</h1>
+        <p class="action-label text-emerald-400">{match.tournament}</p>
       </div>
     {/if}
 
@@ -63,26 +60,24 @@
           <button
             type="button"
             on:click={() => selectServer(link.url)}
-            class="rounded border px-3 py-1.5 text-sm font-medium transition-all md:px-6 md:py-2 md:text-base 
-            {activeServerUrl === link.url ? 'bg-emerald-500/20 border-emerald-500 text-white' : 'border-white/10 bg-zinc-900 text-zinc-300 hover:border-white/40 hover:text-white'}"
+            class="action-label border px-3 py-1.5 transition-all md:px-6 md:py-2
+            {activeServerUrl === link.url ? 'bg-emerald-500/20 border-emerald-500 text-white' : 'border-white/10 bg-black text-zinc-300 hover:border-white/40 hover:text-white'}"
           >
             {link.label || `Server ${index + 1}`}
           </button>
         {/each}
       </div>
     {:else if match}
-      <p class="text-zinc-500 text-sm">No streaming links available yet.</p>
+      <p class="text-zinc-500 action-label">No streaming links available yet.</p>
     {:else}
-      <p class="text-zinc-500 text-sm">Loading match details...</p>
+      <p class="text-zinc-500 action-label">Loading match details...</p>
     {/if}
 
     <!-- Bottom Ad Space -->
     <div
-      class="flex h-32 w-full items-center justify-center rounded border border-dashed border-white/20 bg-zinc-900/50"
+      class="flex h-32 w-full items-center justify-center border border-dashed border-white/20 bg-black/60"
     >
-      <span class="text-[10px] uppercase tracking-widest text-zinc-600"
-        >Advertisement</span
-      >
+      <span class="action-label text-zinc-600">Advertisement</span>
     </div>
   </div>
 </div>

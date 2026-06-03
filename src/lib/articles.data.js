@@ -60,6 +60,28 @@ export const getTotalPages = async (itemsPerPage = 6) => {
   return Math.max(1, Math.ceil(allArticles.length / itemsPerPage));
 };
 
+export const getSuggestedArticles = async (currentArticleId, tags, maxResults = 3) => {
+  const allArticles = await getFirestoreArticles();
+  const others = allArticles.filter((a) => a.id !== currentArticleId);
+
+  if (!tags || tags.length === 0) {
+    return others.slice(0, maxResults);
+  }
+
+  const scored = others.map((article) => {
+    const articleTags = article.tags || [];
+    const score = articleTags.filter((t) => tags.includes(t)).length;
+    return { article, score };
+  });
+
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.article.createdAt?.toMillis?.() - a.article.createdAt?.toMillis?.();
+  });
+
+  return scored.slice(0, maxResults).map((s) => s.article);
+};
+
 export const getArticlesByCategory = async (
   category,
   page = 1,

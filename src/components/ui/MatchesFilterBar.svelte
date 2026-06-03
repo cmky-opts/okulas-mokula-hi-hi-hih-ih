@@ -22,14 +22,14 @@
     <button
       type="button"
       on:click={() => handleFilterChange(filter.value)}
-      class={`rounded-full border px-4 py-2 text-sm font-semibold uppercase tracking-wider transition ${
+      class={`action-label border px-4 py-2 transition ${
         activeFilter === filter.value
           ? filter.color === "white"
             ? "border-white/40 bg-white/10 text-white"
             : filter.color === "emerald"
               ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-200"
               : "border-sky-500/40 bg-sky-500/15 text-sky-200"
-          : "border-white/10 bg-white/5 text-white/70 hover:border-white/20 hover:bg-white/10"
+          : "border-white/10 bg-black/60 text-white/70 hover:border-white/30 hover:bg-black/80"
       }`}
     >
       {filter.label}

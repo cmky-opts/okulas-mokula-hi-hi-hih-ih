@@ -56,13 +56,13 @@
   };
 </script>
 
-<section class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full py-10 pt-20">
+<section class="min-h-screen bg-texture w-full py-10 pt-20 border-b border-white/10">
   <div class="mx-auto w-full max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
     <!-- Back Button -->
     <button
       type="button"
       on:click={handleBackClick}
-      class="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10"
+      class="action-label flex items-center gap-2 border border-white/10 bg-black/60 px-4 py-2 text-white transition hover:border-white/30"
     >
       ← Back to Events
     </button>
@@ -77,17 +77,15 @@
       />
 
       <!-- Filter Bar -->
-      <div
-        class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md"
-      >
+      <div class="border border-white/10 bg-black/60 p-6">
         <div
           class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
         >
           <div class="space-y-2">
-            <p class="text-sm uppercase tracking-[0.35em] text-sky-300/80">
+            <p class="action-label text-sky-300/80">
               Filter matches
             </p>
-            <h2 class="text-2xl font-semibold text-white sm:text-3xl">
+            <h2 class="print-headline text-2xl sm:text-3xl text-white">
               {displayedMatches.length}
               {displayedMatches.length === 1 ? "Match" : "Matches"}
             </h2>

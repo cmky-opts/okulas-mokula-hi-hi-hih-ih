@@ -5,18 +5,17 @@
 </script>
 
 <section
-  class="relative w-full min-h-125 bg-black overflow-hidden flex items-center"
+  class="relative w-full min-h-125 bg-black overflow-hidden flex items-center border-y border-white/10"
 >
   <!-- Background Image with Dark Overlay -->
-  <div class="absolute inset-0 z-0">
-    <!-- Using a dark radial gradient to make the text pop -->
+  <div class="absolute inset-0 z-0 clip-jagged">
     <div
-      class="absolute inset-0 bg-linear-to-r from-black via-black/10 to-transparent z-10"
+      class="absolute inset-0 bg-linear-to-r from-black via-black/60 to-transparent z-10"
     ></div>
     <img
-      src="public\495932177544.jpeg"
+      src="public/495932177544.jpeg"
       alt="Hero Background"
-      class="w-full h-full object-cover opacity-60"
+      class="w-full h-full object-cover opacity-70 img-ink"
     />
   </div>
 
@@ -26,30 +25,24 @@
   >
     <!-- Left: Text Content -->
     <div class="flex flex-col items-start space-y-6">
-      <h1
-        class="font-integral text-4xl md:text-6xl text-white leading-tight tracking-tight"
-      >
-        FREE FOOTBALL <br /> HIGHLIGHTS
+      <h1 class="print-headline text-5xl md:text-7xl text-white">
+        FREE FOOTBALL<br />HIGHLIGHTS
       </h1>
 
-      <p
-        class="text-zinc-400 font-integral-medium text-lg max-w-md leading-relaxed"
-      >
+      <p class="text-zinc-400 font-medium text-lg max-w-md leading-relaxed uppercase tracking-wider">
         Goals, highlights and big moments from LALIGA, Bundesliga, Serie A and
         the Saudi Pro League.
       </p>
 
       <a
         href="#featured-matches"
-        class="bg-white text-black px-10 py-3 rounded font-bold hover:bg-zinc-200 transition-all uppercase tracking-wide inline-block text-center"
+        class="bg-white text-black px-10 py-3 font-black hover:bg-zinc-200 transition-all action-label border-2 border-white inline-block text-center"
       >
         Watch Free
       </a>
     </div>
 
-    <!-- Right: Featured Graphic (Optional overlay for the image_903b23.jpg) -->
-    <div class="hidden md:flex justify-center items-center relative">
-      <!-- This side remains open for the subjects in image_903b23.jpg to be visible -->
-    </div>
+    <!-- Right: Featured Graphic -->
+    <div class="hidden md:flex justify-center items-center relative"></div>
   </div>
 </section>

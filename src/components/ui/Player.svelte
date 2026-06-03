@@ -41,17 +41,15 @@
 -->
 <div class="flex w-full flex-col items-center justify-center p-0 md:p-4 m-0">
   <div
-    class="w-full md:max-w-2xl overflow-hidden md:rounded-lg border-y md:border border-white/10 bg-zinc-900 shadow-xl"
+    class="w-full md:max-w-2xl overflow-hidden border border-white/10 bg-black shadow-xl"
   >
     <div
-      class="flex items-center justify-between bg-zinc-900/80 px-3 py-1.5 border-b border-white/5"
+      class="flex items-center justify-between bg-black/80 px-3 py-1.5 border-b border-white/10"
     >
-      <span class="text-xs font-medium text-zinc-400">Stream Player</span>
+      <span class="action-label text-zinc-400">worldcup2026live.xyz</span>
       <div class="flex items-center gap-1.5">
-        <div class="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500"></div>
-        <span class="text-[9px] uppercase tracking-tighter text-zinc-500"
-          >Live</span
-        >
+        <div class="h-1.5 w-1.5 animate-pulse bg-red-500"></div>
+        <span class="action-label text-zinc-500">Live</span>
       </div>
     </div>
 

@@ -3,59 +3,82 @@
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "News", href: "/articles" }
+    { name: "News", href: "/articles" },
+    { name: "About", href: "/about" },
+    { name: "Contact", href: "/contact" },
   ];
+
+  const legalLinks = [
+    { name: "DMCA", href: "/dmca" },
+    { name: "Privacy", href: "/privacy" },
+    { name: "Disclaimer", href: "/disclaimer" },
+  ];
+
+  let showLegal = false;
+    function navigateHome() {
+    window.location.href = "/";
+  }
+  
 </script>
 
 <nav
-  class="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur-md"
+  class="fixed left-0 top-0 z-50 w-full h-fit p-4 border-b border-white/10 bg-black"
 >
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
-      <div
-        class="flex shrink-0 items-center text-2xl font-bold tracking-tighter text-white"
+      <button
+        class="flex shrink-0 items-center  text-2xl font-black tracking-tighter text-white uppercase hover:cursor-pointer"
+        onclick={navigateHome}
       >
-        My<span class="text-zinc-500">Brand</span>
-      </div>
+        <img src="src/assets/WORLDCUP2026LIVE-01.png" alt="logo" class="h-30 w-auto " >
+      </button>
 
       <!-- Desktop Menu -->
-      <div class="hidden space-x-8 font-medium text-zinc-400 md:flex">
+      <div class="hidden items-center gap-1 md:flex">
         {#each navLinks as link}
-          <!-- Fixed the hash prefix and removed the extra double quote -->
-          <a href="#{link.href}" class="transition-colors hover:text-white">
+          <a
+            href="#{link.href}"
+            class="action-label px-4 py-2 text-zinc-400 transition-colors hover:text-white border border-transparent hover:border-white/20"
+          >
             {link.name}
           </a>
         {/each}
+        <!-- Legal Dropdown -->
+        <div class="relative">
+          <button
+            type="button"
+            onclick={() => (showLegal = !showLegal)}
+            onblur={() => setTimeout(() => (showLegal = false), 150)}
+            class="action-label px-4 py-2 text-zinc-400 transition-colors hover:text-white border border-transparent hover:border-white/20"
+          >
+            Legal ▾
+          </button>
+          {#if showLegal}
+            <div
+              role="menu"
+              class="absolute right-0 top-full mt-1 w-44 border border-white/10 bg-black shadow-xl"
+                onmouseleave={() => (showLegal = false)}
+            >
+              {#each legalLinks as link}
+                <a
+                  href="#{link.href}"
+                  class="action-label block border-b border-white/5 px-4 py-3 text-zinc-400 transition-colors last:border-b-0 hover:bg-white/5 hover:text-white"
+                >
+                  {link.name}
+                </a>
+              {/each}
+            </div>
+          {/if}
+        </div>
       </div>
 
       <div class="flex items-center md:hidden">
         <button
           onclick={() => (isOpen = !isOpen)}
-          class="text-zinc-400 hover:text-white focus:outline-none"
+          class="action-label px-3 py-2 text-zinc-400 hover:text-white border border-white/10"
           aria-label="Toggle menu"
         >
-          <svg
-            class="h-6 w-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            {#if isOpen}
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            {:else}
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            {/if}
-          </svg>
+          {isOpen ? "Close" : "Menu"}
         </button>
       </div>
     </div>
@@ -63,19 +86,28 @@
 
   <!-- Mobile Menu -->
   {#if isOpen}
-    <div
-      class="border-t border-white/10 bg-zinc-900 px-4 py-4 space-y-2 md:hidden"
-    >
+    <div class="border-t border-white/10 bg-black px-4 py-4 space-y-1">
       {#each navLinks as link}
-        <!-- Added # here as well so mobile links work with svelte-spa-router -->
         <a
           href="#{link.href}"
           onclick={() => (isOpen = false)}
-          class="block rounded-md px-3 py-2 text-zinc-300 hover:bg-white/10 hover:text-white"
+          class="action-label block border border-white/10 px-4 py-3 text-zinc-300 hover:bg-white/5 hover:text-white"
         >
           {link.name}
         </a>
       {/each}
+      <div class="pt-3 border-t border-white/5 mt-3">
+        <p class="action-label text-zinc-500 px-4 pb-2 text-xs">Legal</p>
+        {#each legalLinks as link}
+          <a
+            href="#{link.href}"
+            onclick={() => (isOpen = false)}
+            class="action-label block border border-white/10 px-4 py-3 text-zinc-300 hover:bg-white/5 hover:text-white"
+          >
+            {link.name}
+          </a>
+        {/each}
+      </div>
     </div>
   {/if}
 </nav>

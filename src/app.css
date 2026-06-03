@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+@plugin "@tailwindcss/typography";
 
 @theme {
   --font-fifa2026: "fifa2026";
@@ -9,6 +10,7 @@
   --font-integral-heavy: "fontspring-integralcf-heavy";
   --font-integral-bold: "fontspring-integralcf-bold";
   --font-integral-regular: "fontspring-integralcf-regular";
+  --font-serif: "PT Serif", serif;
 }
 
 @font-face {
@@ -40,6 +42,55 @@
 @font-face {
   font-family: "fontspring-integralcf-regular";
   src: url("/Fontspring-DEMO-integralcf-regular.otf") format("opentype");
+}
+
+/* ─── Texture Canvas Background ─── */
+@utility bg-texture {
+  background-color: #0a0a0a;
+  background-image: url('/src/assets/bg2.webp');
+  background-repeat: repeat;
+  background-size: 250px 250px;
+}
+
+/* ─── Jagged Poster Clip Path ─── */
+/* @utility clip-jagged {
+  clip-path: polygon(
+    0% 2%, 3% 0%, 7% 3%, 12% 1%, 18% 3%, 24% 0%, 31% 2%, 38% 0%, 45% 3%, 52% 1%, 60% 3%, 68% 0%, 75% 2%, 83% 1%, 91% 3%, 100% 0%,
+    100% 100%,
+    93% 98%, 86% 100%, 79% 97%, 71% 99%, 64% 97%, 56% 100%, 48% 98%, 41% 99%, 33% 97%, 25% 100%, 18% 98%, 11% 99%, 4% 97%, 0% 100%
+  );
+} */
+
+/* ─── Print-Ink Image Treatment ─── */
+/* @utility img-ink {
+  filter: grayscale(100%) contrast(150%);
+  mix-blend-mode: multiply;
+} */
+
+/* ─── Zero-radius global reset for print-media feel ─── */
+* {
+  border-radius: 0 !important;
+}
+
+/* ─── Structural border utility ─── */
+@utility border-structural {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ─── Heavy print headline ─── */
+@utility print-headline {
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* ─── Asymmetric action label ─── */
+@utility action-label {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
 }
 
 /* Tiptap Editor Styles */

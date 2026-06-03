@@ -1,32 +1,30 @@
-<footer class="w-full bg-[#0a0a0a] py-20 px-4 flex flex-col items-center">
+<footer class="w-full bg-texture py-20 px-4 flex flex-col items-center border-t border-white/10">
   <div class="max-w-4xl w-full text-center">
-    <!-- Main Heading -->
-    <h2
-      class="text-white text-2xl font-integral-heavy md:text-2xl font-bold leading-tight tracking-tight"
-    >
-      Watch on your favourite devices. <br />
+    <h2 class="print-headline text-2xl md:text-3xl text-white">
+      Watch on your favourite devices.<br />
       <span class="text-amber-400">Anytime. Anywhere.</span>
     </h2>
 
-    <!-- Description Text -->
-    <p
-      class="mt-4 text-zinc-400 font-integral-regular md:text- leading-relaxed max-w-3xl mx-auto"
-    >
+    <p class="mt-4 text-zinc-400 text-sm leading-relaxed max-w-3xl mx-auto uppercase tracking-wider">
       Whether you are at home or on the go, DAZN is available on a wide range of
       mobile and connected devices including Smart TVs, Chromecast, Playstation,
       Xbox and more.
     </p>
 
-    <!-- The "Text-on-Line" Divider -->
-    <div class="relative mt-20 w-full flex items-center justify-center">
-      <!-- The Horizontal Line -->
-      <div class="absolute w-full h-px bg-zinc-800"></div>
+    <nav class="mt-12 flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs uppercase tracking-widest">
+      <a href="#/about" class="text-zinc-500 transition-colors hover:text-white">About</a>
+      <a href="#/contact" class="text-zinc-500 transition-colors hover:text-white">Contact</a>
+      <a href="#/dmca" class="text-zinc-500 transition-colors hover:text-white">DMCA</a>
+      <a href="#/privacy" class="text-zinc-500 transition-colors hover:text-white">Privacy Policy</a>
+      <a href="#/disclaimer" class="text-zinc-500 transition-colors hover:text-white">Disclaimer</a>
+    </nav>
 
-      <!-- The Label sitting on top of the line -->
+    <div class="relative mt-12 w-full flex items-center justify-center">
+      <div class="absolute w-full h-px bg-zinc-800"></div>
       <span
-        class="relative bg-[#0a0a0a] font-integral-bold px-6 pb-0 text-white font-bold text-sm uppercase tracking-wider"
+        class="relative bg-black px-6 text-white font-bold text-xs uppercase tracking-widest"
       >
-        Our leading supported devices
+        worldcup2026live.xyz
       </span>
     </div>
   </div>

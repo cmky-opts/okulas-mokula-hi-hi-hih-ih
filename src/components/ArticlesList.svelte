@@ -37,29 +37,27 @@
   };
 </script>
 
-<section class="min-h-screen bg-linear-to-b from-black via-[#121111] to-black w-full py-10 pt-20">
+<section class="min-h-screen bg-texture w-full py-10 pt-20 border-b border-white/10">
   <div class="mx-auto w-full max-w-6xl space-y-6 px-4 sm:px-6 lg:px-8">
     <!-- Back Button -->
     <button
       type="button"
       on:click={handleBackClick}
-      class="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/20 hover:bg-white/10"
+      class="action-label flex items-center gap-2 border border-white/10 bg-black/60 px-4 py-2 text-white transition hover:border-white/30"
     >
       ← Back to Home
     </button>
 
     <!-- Header -->
-    <div
-      class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md"
-    >
+    <div class="border border-white/10 bg-black/60 p-6">
       <div class="space-y-2">
-        <p class="text-sm uppercase tracking-[0.35em] text-emerald-400/80">
+        <p class="action-label text-emerald-400/80">
           All Articles
         </p>
-        <h1 class="text-3xl font-semibold text-white sm:text-4xl">
-          News & Prediction
+        <h1 class="print-headline text-3xl sm:text-5xl text-white">
+          News &amp; Prediction
         </h1>
-        <p class="max-w-2xl text-sm text-zinc-400 sm:text-base">
+        <p class="max-w-2xl text-sm text-zinc-400 uppercase tracking-wider">
           Browse all the latest news articles and expert predictions. Stay
           updated with comprehensive coverage of the latest football events.
         </p>
@@ -79,12 +77,10 @@
     </div>
 
     <!-- Pagination Controls -->
-    <div
-      class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md flex items-center justify-between"
-    >
-      <div class="text-sm text-zinc-400">
-        Page <span class="font-semibold text-white">{currentPage}</span> of
-        <span class="font-semibold text-white">{totalPages}</span>
+    <div class="border border-white/10 bg-black/60 p-4 flex items-center justify-between">
+      <div class="action-label text-zinc-400">
+        Page <span class="font-bold text-white">{currentPage}</span> of
+        <span class="font-bold text-white">{totalPages}</span>
       </div>
 
       <div class="flex gap-3">
@@ -92,7 +88,7 @@
           type="button"
           on:click={handlePreviousPage}
           disabled={currentPage === 1}
-          class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition disabled:opacity-50 disabled:cursor-not-allowed hover:border-white/20 hover:bg-white/10"
+          class="action-label border border-white/10 bg-black/60 px-4 py-2 text-white transition disabled:opacity-50 disabled:cursor-not-allowed hover:border-white/30"
         >
           ← Previous
         </button>
@@ -100,7 +96,7 @@
           type="button"
           on:click={handleNextPage}
           disabled={currentPage === totalPages}
-          class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition disabled:opacity-50 disabled:cursor-not-allowed hover:border-white/20 hover:bg-white/10"
+          class="action-label border border-white/10 bg-black/60 px-4 py-2 text-white transition disabled:opacity-50 disabled:cursor-not-allowed hover:border-white/30"
         >
           Next →
         </button>

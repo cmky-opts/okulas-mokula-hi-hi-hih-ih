@@ -5,33 +5,66 @@
   export let matchCount = 0;
 </script>
 
+<style>
+  .event-description :global(p) {
+    margin-bottom: 0.5rem;
+  }
+  .event-description :global(strong),
+  .event-description :global(b) {
+    color: #ffffff;
+    font-weight: 700;
+  }
+  .event-description :global(ul) {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .event-description :global(ol) {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .event-description :global(li) {
+    margin-bottom: 0.125rem;
+  }
+  .event-description :global(a) {
+    color: #f87171;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .event-description :global(a:hover) {
+    color: #fca5a5;
+  }
+</style>
+
 <div
-  class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-md overflow-hidden"
+  class="relative border border-white/10 bg-black/60 p-6 overflow-hidden clip-jagged"
 >
-  <!-- Background Image with Overlay -->
   {#if eventImage}
     <div
-      class="absolute inset-0 opacity-10 bg-cover bg-center"
+      class="absolute inset-0 bg-cover bg-center opacity-25"
       style="background-image: url({eventImage})"
     ></div>
+    <div class="absolute inset-0 bg-black/70"></div>
   {/if}
 
   <div
     class="relative z-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
   >
-    <!-- Left: Event Title and Description -->
     <div class="space-y-2">
-      <p class="text-sm uppercase tracking-[0.35em] text-emerald-400/80">
+      <p class="action-label text-emerald-400/80">
         Event Details
       </p>
-      <h1 class="text-3xl font-semibold text-white sm:text-4xl">
+      <h1 class="print-headline text-3xl sm:text-4xl text-white">
         {eventName}
       </h1>
-      <div class="max-w-2xl text-sm text-zinc-400 sm:text-base prose prose-invert prose-sm">
+      <div class="event-description max-w-2xl text-sm text-white sm:text-base font-serif leading-relaxed">
         {@html eventDescription}
       </div>
       {#if matchCount > 0}
-        <p class="text-xs uppercase tracking-[0.25em] text-emerald-300/70">
+        <p class="action-label text-emerald-300/70 mt-2">
           {matchCount}
           {matchCount === 1 ? "match" : "matches"}
         </p>
@@ -40,7 +73,7 @@
 
     <!-- Right: Event Badge/Icon -->
     <div
-      class="flex items-center justify-center rounded-full w-20 h-20 bg-emerald-500/10 border border-emerald-500/20"
+      class="flex items-center justify-center w-20 h-20 bg-emerald-500/10 border border-emerald-500/20"
     >
       <span class="text-2xl">🏆</span>
     </div>

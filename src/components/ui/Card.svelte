@@ -19,31 +19,29 @@
 <button
   type="button"
   on:click={handleClick}
-  class="group relative flex w-full flex-col items-center justify-center overflow-hidden transition-all hover:cursor-pointer rounded-xl border border-white/10 bg-zinc-900/40 p-4 hover:border-white/20 hover:bg-zinc-900/60"
+  class="group relative flex w-full h-fit flex-col items-center justify-center overflow-hidden transition-all hover:cursor-pointer border border-white/10 bg-black/60 p-0.5 hover:border-white/30"
 >
-  <div class="flex w-full items-center justify-center p-2">
+  <div class="flex w-full items-center justify-center ">
     <figure class="w-full">
       <img
         src={imgSrc}
         alt={eventName}
-        class="h-auto w-full max-h-32 object-contain transition-transform duration-300 group-hover:scale-110"
+        class="w-auto h-auto object-contain transition-transform duration-300 group-hover:scale-110 img-ink"
       />
     </figure>
   </div>
 
-  <!-- Event name shown on hover/focus -->
   {#if eventName}
     <div
-      class="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-center justify-center rounded-xl"
+      class="absolute inset-0 bg-black/80 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-center justify-center"
     >
-      <p class="text-center text-sm font-semibold text-white px-2">
+      <p class="text-center action-label text-white px-2">
         {eventName}
       </p>
     </div>
   {/if}
 
-  <!-- Subtle Emerald Glow on hover to match your style -->
   <div
-    class="absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:shadow-[0_0_20px_rgba(84,255,218,0.3)]"
+    class="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-hover:shadow-[0_0_20px_rgba(84,255,218,0.3)]"
   ></div>
 </button>
