@@ -12,6 +12,7 @@
   import DMCA from "./components/DMCA.svelte";
   import PrivacyPolicy from "./components/PrivacyPolicy.svelte";
   import Disclaimer from "./components/Disclaimer.svelte";
+  import VisitorCounter from "./components/VisitorCounter.svelte";
   import Footer from "./components/Footer.svelte";
 
   const routes = {
@@ -36,5 +37,6 @@
   <main class="p-0">
     <Router {routes} />
   </main>
+  <VisitorCounter />
   <Footer></Footer>
 </section>
