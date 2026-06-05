@@ -32,20 +32,20 @@
   initStatsListener()
 </script>
 
-<div class="grid gap-6 md:grid-cols-3">
-  <div class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 text-center">
-    <p class="text-xs uppercase tracking-[0.35em] text-sky-300/80 mb-2">Actual Daily</p>
-    <p class="text-4xl font-bold text-white tabular-nums">{statsDaily.toLocaleString()}</p>
-    <p class="text-xs text-zinc-500 mt-2">Resets to 0 each day</p>
+<div class="grid gap-px overflow-hidden rounded-lg border border-zinc-800 bg-zinc-800 sm:grid-cols-3">
+  <div class="bg-zinc-950 px-5 py-6">
+    <p class="text-xs font-medium text-zinc-500">Actual Daily</p>
+    <p class="mt-1.5 text-2xl font-semibold text-white tabular-nums">{statsDaily.toLocaleString()}</p>
+    <p class="mt-1 text-xs text-zinc-600">Resets each day</p>
   </div>
-  <div class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 text-center">
-    <p class="text-xs uppercase tracking-[0.35em] text-amber-400/80 mb-2">Offset (totla)</p>
-    <p class="text-4xl font-bold text-amber-400 tabular-nums">{statsOffset.toLocaleString()}</p>
-    <p class="text-xs text-zinc-500 mt-2">Fetched from stats/offset</p>
+  <div class="bg-zinc-950 px-5 py-6">
+    <p class="text-xs font-medium text-zinc-500">Offset</p>
+    <p class="mt-1.5 text-2xl font-semibold text-amber-400 tabular-nums">{statsOffset.toLocaleString()}</p>
+    <p class="mt-1 text-xs text-zinc-600">Inflation from stats/offset</p>
   </div>
-  <div class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6 text-center">
-    <p class="text-xs uppercase tracking-[0.35em] text-emerald-300/80 mb-2">Actual Total</p>
-    <p class="text-4xl font-bold text-emerald-400 tabular-nums">{statsTotal.toLocaleString()}</p>
-    <p class="text-xs text-zinc-500 mt-2">Cumulative (live from Firestore)</p>
+  <div class="bg-zinc-950 px-5 py-6">
+    <p class="text-xs font-medium text-zinc-500">Actual Total</p>
+    <p class="mt-1.5 text-2xl font-semibold text-emerald-400 tabular-nums">{statsTotal.toLocaleString()}</p>
+    <p class="mt-1 text-xs text-zinc-600">Cumulative live count</p>
   </div>
 </div>

@@ -153,180 +153,138 @@
   $: if (selectedEventId && events.length > 0) loadMatches()
 </script>
 
-<div class="grid gap-6 xl:grid-cols-[1fr_420px]">
-  <div class="space-y-6">
-    {#if error}
-      <div class="rounded-3xl border border-rose-500/20 bg-rose-500/10 p-4 text-sm text-rose-200">{error}</div>
-    {/if}
-
-    <div class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6">
-      <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <p class="text-sm uppercase tracking-[0.35em] text-sky-300/80">Featured matches</p>
-          <h2 class="text-2xl font-semibold text-white">Match list</h2>
-        </div>
+<div class="grid gap-10 xl:grid-cols-[1fr_400px]">
+  <div>
+    <div class="mb-5 flex items-center justify-between gap-4">
+      <h2 class="text-sm font-medium text-zinc-400">Matches</h2>
+      {#if events.length > 0}
         <select bind:value={selectedEventId} on:change={() => selectEvent(selectedEventId)}
-          class="rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none">
+          class="rounded-lg border border-zinc-800 bg-transparent px-3 py-1.5 text-sm text-zinc-300 outline-none">
           {#each events as event}
             <option value={event.id}>{event.name}</option>
           {/each}
         </select>
-      </div>
-
-      {#if loadingMatches}
-        <div class="rounded-3xl bg-zinc-950/60 p-6 text-center text-zinc-400">Loading matches...</div>
-      {:else if matches.length === 0}
-        <div class="rounded-3xl bg-zinc-950/60 p-6 text-center text-zinc-400">No matches found for this event.</div>
-      {:else}
-        <div class="grid gap-4">
-          {#each matches as match}
-            <div class="rounded-3xl border border-white/10 bg-zinc-950/80 p-4">
-              <div class="flex flex-wrap items-start justify-between gap-4">
-                <div class="flex items-start gap-4">
-                  <div class="flex flex-col items-center gap-1 pt-1">
-                    <span class="text-xs text-zinc-500 uppercase tracking-wider">Pos</span>
-                    <input type="number" min="0" max="99" value={match.sortOrder ?? ""} placeholder="--"
-                      on:change={(e) => handleOrderSave(match.id, e.target.value)}
-                      class="w-14 rounded-lg border border-white/10 bg-zinc-950 px-2 py-1.5 text-center text-sm text-white outline-none focus:border-emerald-500 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
-                  </div>
-                  <div>
-                    <p class="text-sm text-sky-300/80">{match.tournament}</p>
-                    <h3 class="text-xl font-semibold text-white">{match.homeTeam} vs {match.awayTeam}</h3>
-                    <p class="text-sm text-zinc-400">{match.dateTime} · {match.venue}</p>
-                  </div>
-                </div>
-                <div class="flex flex-col gap-2">
-                  <div class="flex items-center gap-2">
-                    <ToggleSwitch checked={match.featured} label={match.featured ? "Featured" : "Feature"} on:change={() => toggleFeaturedMatch(match)} />
-                    <ToggleSwitch checked={match.showPlayer !== false} label={match.showPlayer !== false ? "Player On" : "Player Off"} on:change={() => toggleShowPlayer(match)} />
-                  </div>
-                  <div class="flex gap-2">
-                    <button type="button" on:click={() => editMatch(match)}
-                      class="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition hover:border-white/20 hover:bg-white/10">Edit</button>
-                    <button type="button" on:click={() => handleMatchDelete(match)}
-                      class="rounded-full border border-rose-500/20 bg-rose-500/10 px-4 py-2 text-xs font-semibold text-rose-300 transition hover:bg-rose-500/20">Delete</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div>
-      {/if}
-      {#if orderError}
-        <div class="mt-4 rounded-3xl bg-rose-500/10 p-3 text-sm text-rose-200">{orderError}</div>
-      {/if}
-      {#if featuredError}
-        <div class="mt-4 rounded-3xl bg-rose-500/10 p-3 text-sm text-rose-200">{featuredError}</div>
       {/if}
     </div>
+
+    {#if error}
+      <div class="mb-4 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3.5 py-2.5 text-sm text-rose-300">{error}</div>
+    {/if}
+
+    {#if loadingMatches}
+      <div class="py-12 text-center text-sm text-zinc-600">Loading...</div>
+    {:else if matches.length === 0}
+      <div class="py-12 text-center text-sm text-zinc-600">No matches for this event.</div>
+    {:else}
+      <div class="divide-y divide-zinc-800">
+        {#each matches as match}
+          <div class="py-4">
+            <div class="flex items-start justify-between gap-4">
+              <div class="flex items-start gap-4">
+                <div class="flex flex-col items-center gap-1 pt-0.5">
+                  <span class="text-[10px] text-zinc-600">Pos</span>
+                  <input type="number" min="0" max="99" value={match.sortOrder ?? ""} placeholder="--"
+                    on:change={(e) => handleOrderSave(match.id, e.target.value)}
+                    class="w-11 rounded border border-zinc-800 bg-transparent px-1.5 py-1 text-center text-xs text-zinc-400 outline-none focus:border-zinc-600 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                </div>
+                <div>
+                  <p class="text-xs text-zinc-500">{match.tournament}</p>
+                  <p class="text-sm font-medium text-white">{match.homeTeam} vs {match.awayTeam}</p>
+                  <p class="text-xs text-zinc-600">{match.dateTime}{match.venue ? " · " + match.venue : ""}</p>
+                </div>
+              </div>
+              <div class="flex flex-col items-end gap-2">
+                <div class="flex items-center gap-3">
+                  <ToggleSwitch checked={match.featured} label={match.featured ? "Featured" : "Feature"} on:change={() => toggleFeaturedMatch(match)} />
+                  <ToggleSwitch checked={match.showPlayer !== false} label={match.showPlayer !== false ? "Player On" : "Player Off"} on:change={() => toggleShowPlayer(match)} />
+                </div>
+                <div class="flex gap-2">
+                  <button type="button" on:click={() => editMatch(match)}
+                    class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-200">Edit</button>
+                  <button type="button" on:click={() => handleMatchDelete(match)}
+                    class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-500 transition hover:border-rose-500/40 hover:text-rose-400">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    {/if}
+    {#if orderError}
+      <div class="mt-4 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3.5 py-2.5 text-sm text-rose-300">{orderError}</div>
+    {/if}
+    {#if featuredError}
+      <div class="mt-4 rounded-lg border border-rose-500/20 bg-rose-500/10 px-3.5 py-2.5 text-sm text-rose-300">{featuredError}</div>
+    {/if}
   </div>
 
-  <div class="rounded-3xl border border-white/10 bg-zinc-900/70 p-6">
+  <div>
+    <h2 class="mb-5 text-sm font-medium text-zinc-400">{matchForm.id ? "Edit" : "New"} match</h2>
     <div class="space-y-4">
-      <div>
-        <p class="text-sm uppercase tracking-[0.35em] text-sky-300/80">Match form</p>
-        <h2 class="text-2xl font-semibold text-white">Create or edit match</h2>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <input id="home-team" type="text" bind:value={matchForm.homeTeam} placeholder="Home team"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+        <input id="away-team" type="text" bind:value={matchForm.awayTeam} placeholder="Away team"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
       </div>
-      <div class="grid gap-4">
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label class="block text-sm text-zinc-300" for="home-team">Home team</label>
-            <input id="home-team" type="text" bind:value={matchForm.homeTeam}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300" for="away-team">Away team</label>
-            <input id="away-team" type="text" bind:value={matchForm.awayTeam}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <input id="home-logo" type="url" bind:value={matchForm.homeLogoUrl} placeholder="Home logo URL"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+        <input id="away-logo" type="url" bind:value={matchForm.awayLogoUrl} placeholder="Away logo URL"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+      </div>
+      <input id="match-image" type="url" bind:value={matchForm.imageUrl} placeholder="Match image URL"
+        class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+      <div class="grid gap-3 sm:grid-cols-2">
+        <input id="match-datetime" type="text" bind:value={matchForm.dateTime} placeholder="Date & time"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+        <input id="match-venue" type="text" bind:value={matchForm.venue} placeholder="Venue"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <input id="match-tournament" type="text" bind:value={matchForm.tournament} placeholder="Tournament"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+        <select id="match-status" bind:value={matchForm.status}
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-zinc-300 outline-none focus:border-zinc-600">
+          <option>Upcoming</option>
+          <option>Ongoing</option>
+          <option>Finished</option>
+        </select>
+      </div>
+      <div class="grid gap-3 sm:grid-cols-2">
+        <input id="match-score" type="text" bind:value={matchForm.score} placeholder="Score"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+        <input id="match-phase" type="text" bind:value={matchForm.phase} placeholder="Phase"
+          class="w-full rounded-lg border border-zinc-800 bg-transparent px-3.5 py-2.5 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+      </div>
+      <div class="space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs text-zinc-500">Links (max 4)</span>
+          <button type="button" on:click={addMatchLink}
+            class="rounded-md border border-zinc-800 px-2.5 py-1 text-xs text-zinc-500 transition hover:border-zinc-600 hover:text-zinc-300">+ Add</button>
         </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label class="block text-sm text-zinc-300" for="home-logo">Home logo URL</label>
-            <input id="home-logo" type="url" bind:value={matchForm.homeLogoUrl}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300" for="away-logo">Away logo URL</label>
-            <input id="away-logo" type="url" bind:value={matchForm.awayLogoUrl}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-        </div>
-        <div>
-          <label class="block text-sm text-zinc-300" for="match-image">Match image URL</label>
-          <input id="match-image" type="url" placeholder="https://example.com/image.jpg" bind:value={matchForm.imageUrl}
-            class="w-full mt-2 rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-datetime">Datetime</label>
-            <input id="match-datetime" type="text" bind:value={matchForm.dateTime} placeholder="May 17 · 18:30"
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-venue">Venue</label>
-            <input id="match-venue" type="text" bind:value={matchForm.venue}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-tournament">Tournament</label>
-            <input id="match-tournament" type="text" bind:value={matchForm.tournament}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-status">Status</label>
-            <select id="match-status" bind:value={matchForm.status}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500">
-              <option>Upcoming</option>
-              <option>Ongoing</option>
-              <option>Finished</option>
-            </select>
-          </div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-score">Score</label>
-            <input id="match-score" type="text" bind:value={matchForm.score}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-          <div>
-            <label class="block text-sm text-zinc-300" for="match-phase">Phase</label>
-            <input id="match-phase" type="text" bind:value={matchForm.phase}
-              class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-          </div>
-        </div>
-        <div class="space-y-4">
-          <div class="flex items-center justify-between text-sm text-zinc-400">
-            <p>Match links</p>
-            <button type="button" on:click={addMatchLink}
-              class="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-white transition hover:border-white/20 hover:bg-white/10">Add link</button>
-          </div>
-          {#each matchForm.links as link, index}
-            <div class="grid gap-3 sm:grid-cols-[1fr_auto]">
-              <div class="grid gap-2">
-                <input type="text" placeholder="Link label" bind:value={link.label}
-                  on:input={(e) => handleLinkChange(index, "label", e.target.value)}
-                  class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-                <input type="url" placeholder="https://example.com" bind:value={link.url}
-                  on:input={(e) => handleLinkChange(index, "url", e.target.value)}
-                  class="w-full rounded-2xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-emerald-500" />
-              </div>
-              <button type="button" on:click={() => removeMatchLink(index)}
-                class="rounded-full border border-white/10 bg-rose-500/10 px-4 py-3 text-xs font-semibold text-rose-200 transition hover:border-rose-300/40 hover:bg-rose-500/15">Remove</button>
+        {#each matchForm.links as link, index}
+          <div class="flex items-start gap-2">
+            <div class="flex-1 space-y-2">
+              <input type="text" placeholder="Label" bind:value={link.label}
+                on:input={(e) => handleLinkChange(index, "label", e.target.value)}
+                class="w-full rounded-lg border border-zinc-800 bg-transparent px-3 py-2 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
+              <input type="url" placeholder="https://example.com" bind:value={link.url}
+                on:input={(e) => handleLinkChange(index, "url", e.target.value)}
+                class="w-full rounded-lg border border-zinc-800 bg-transparent px-3 py-2 text-sm text-white outline-none transition placeholder:text-zinc-600 focus:border-zinc-600" />
             </div>
-          {/each}
-        </div>
-        <div>
-          <label class="block text-sm text-zinc-300 mb-2">Description</label>
-          <div class="rounded-xl overflow-hidden border border-white/10 bg-white text-black min-h-[200px]">
-            <div use:initMatchQuill></div>
+            <button type="button" on:click={() => removeMatchLink(index)}
+              class="rounded-md border border-zinc-800 px-2.5 py-2 text-xs text-zinc-500 transition hover:border-rose-500/40 hover:text-rose-400">Remove</button>
           </div>
-        </div>
-        <button type="button" on:click={handleMatchSave}
-          class="rounded-full bg-emerald-500 px-5 py-3 text-sm font-semibold text-black transition hover:bg-emerald-400">Save Match</button>
+        {/each}
       </div>
+      <div>
+        <div class="rounded-lg overflow-hidden border border-zinc-800 bg-white text-black min-h-[180px]">
+          <div use:initMatchQuill></div>
+        </div>
+      </div>
+      <button type="button" on:click={handleMatchSave}
+        class="w-full rounded-lg bg-emerald-500 px-3.5 py-2.5 text-sm font-medium text-black transition hover:bg-emerald-400">Save Match</button>
     </div>
   </div>
 </div>
