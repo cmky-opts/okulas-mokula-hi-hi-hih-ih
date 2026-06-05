@@ -1,8 +1,7 @@
 <script>
-  
   let activeSlide = 0;
   const slides = [0, 1, 2, 3];
-  import heroImage from "/495932177544.jpeg"
+  import heroImage from "/495932177544.jpeg";
 </script>
 
 <section
@@ -30,16 +29,18 @@
         FREE FOOTBALL<br />HIGHLIGHTS
       </h1>
 
-      <p class="text-zinc-400 font-medium text-lg max-w-md leading-relaxed uppercase tracking-wider">
-        Goals, highlights and big moments from LALIGA, Bundesliga, Serie A and
-        the Saudi Pro League.
+      <p
+        class="text-zinc-400 font-medium text-lg max-w-md leading-relaxed uppercase tracking-wider"
+      >
+        Insights, analysis and viral moments from the Premier League, NBA,
+        Formula 1, UFC, and major global tournaments.
       </p>
 
       <a
         href="#featured-matches"
         class="bg-white text-black px-10 py-3 font-black hover:bg-zinc-200 transition-all action-label border-2 border-white inline-block text-center"
       >
-        Watch Free
+        Dig in
       </a>
     </div>
 

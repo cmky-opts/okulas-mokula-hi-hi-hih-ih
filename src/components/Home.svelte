@@ -42,13 +42,19 @@
   <div
     class="flex min-h-fit w-full max-w-6xl flex-col items-center justify-center gap-8 mt-12 border border-white/10 bg-black/60 p-6 md:p-10"
   >
-    <p class="print-headline text-3xl md:text-5xl text-white w-full text-center">
+    <p
+      class="print-headline text-3xl md:text-5xl text-white w-full text-center"
+    >
       Events
     </p>
 
-    <div class="flex w-full flex-col items-center justify-center gap-10 md:flex-row">
+    <!-- Changed from CSS Grid to a wrapped Flexbox with justify-center -->
+    <div class="flex w-full flex-wrap justify-center gap-6">
       {#each homeEvents as event (event.id)}
-        <div class="flex w-full justify-center md:w-1/3">
+        <!-- Set responsive widths to match the 4-in-a-row layout while allowing centering -->
+        <div
+          class="flex justify-center w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)]"
+        >
           <Card
             imgSrc={event.image || event.imageUrl}
             eventId={event.id}
@@ -64,7 +70,9 @@
     id="featured-matches"
     class="flex w-full max-w-6xl flex-col items-center justify-center gap-8 border border-white/10 bg-black/60 mt-10 p-6 clip-jagged"
   >
-    <p class="print-headline text-3xl md:text-5xl text-white w-full text-center">
+    <p
+      class="print-headline text-3xl md:text-5xl text-white w-full text-center"
+    >
       Featured Matches
     </p>
 
