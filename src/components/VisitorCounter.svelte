@@ -40,28 +40,14 @@
   }
 
   onMount(async () => {
-    // 1. Instantly load local storage fallbacks
     const today = new Date().toISOString().slice(0, 10);
     const savedDate = localStorage.getItem(LS_DATE) || "";
+
+    // 1. Show localStorage values immediately as fast fallback
     dailyVisitors = parseInt(localStorage.getItem(LS_DAILY) || "0", 10);
     totalVisitors = parseInt(localStorage.getItem(LS_TOTAL) || "0", 10);
 
-    // 2. Fetch inflation offset from Firestore (Fixed the "totla" typo here to "total")
-    if (db) {
-      try {
-        const offsetRef = doc(db, "stats", "offset");
-        const snap = await getDoc(offsetRef);
-        inflationOffset = parseInt(snap.data()?.totla, 10) || 0;
-      } catch (err) {
-        console.error("Failed to fetch offset:", err);
-      } finally {
-        loading = false;
-      }
-    } else {
-      loading = false;
-    }
-
-    // 3. Handle session tracking
+    // 2. Handle session tracking — update localStorage + Firestore
     if (!sessionStorage.getItem(SESSION_KEY)) {
       if (savedDate !== today) {
         dailyVisitors = 1;
@@ -76,7 +62,31 @@
       localStorage.setItem(LS_TOTAL, String(totalVisitors));
       sessionStorage.setItem(SESSION_KEY, "1");
 
-      incrementFirestore(today);
+      if (db) {
+        await incrementFirestore(today);
+      }
+    }
+
+    // 3. Fetch Firestore aggregate data for display (offset + actual counts)
+    if (db) {
+      try {
+        const [offsetSnap, visitorsSnap] = await Promise.all([
+          getDoc(doc(db, "stats", "offset")),
+          getDoc(doc(db, "stats", "visitors")),
+        ]);
+        inflationOffset = parseInt(offsetSnap.data()?.totla, 10) || 0;
+        const vdata = visitorsSnap.data();
+        if (vdata) {
+          dailyVisitors = vdata.actual_daily_visitors || 0;
+          totalVisitors = vdata.actual_total_visitors || 0;
+        }
+      } catch (err) {
+        console.error("Failed to fetch Firestore stats:", err);
+      } finally {
+        loading = false;
+      }
+    } else {
+      loading = false;
     }
   });
 </script>
