@@ -111,8 +111,6 @@
   }
 
   const toggleFeaturedMatch = async (match) => {
-    const selectedFeaturedCount = matches.filter((item) => item.featured).length
-    if (!match.featured && selectedFeaturedCount >= 2) { featuredError = "You may only feature exactly 2 matches per event."; return }
     featuredError = ""
     await setMatchFeatured(selectedEventId, match.id, !match.featured)
     await loadMatches()
