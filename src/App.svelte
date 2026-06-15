@@ -1,4 +1,6 @@
 <script>
+  import { onMount } from "svelte"; // 1. Import onMount
+  import { initAppCheck } from "./lib/firebase.js";
   import Router from "svelte-spa-router";
   import Navbar from "./components/ui/Navbar.svelte";
   import Home from "./components/Home.svelte";
@@ -29,9 +31,16 @@
     "/disclaimer": Disclaimer,
     "*": Home,
   };
+
+  // 3. Initialize App Check right when the root component mounts to the DOM
+  onMount(() => {
+    initAppCheck();
+  });
 </script>
 
-<section class="bg-texture min-h-screen w-full border-l border-r border-white/5">
+<section
+  class="bg-texture min-h-screen w-full border-l border-r border-white/5"
+>
   <Navbar />
 
   <main class="p-0">
