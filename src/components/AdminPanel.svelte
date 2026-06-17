@@ -6,6 +6,7 @@
   import AdminMatches from "./admin/AdminMatches.svelte"
   import AdminArticles from "./admin/AdminArticles.svelte"
   import AdminStats from "./admin/AdminStats.svelte"
+  import AdminSettings from "./admin/AdminSettings.svelte"
 
   let activeTab = "events"
   let user = null
@@ -114,6 +115,9 @@
           <button type="button"
             class="border-b-2 pb-3 text-sm transition {activeTab === 'stats' ? 'border-emerald-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}"
             on:click={() => activeTab = "stats"}>Stats</button>
+          <button type="button"
+            class="border-b-2 pb-3 text-sm transition {activeTab === 'settings' ? 'border-emerald-500 text-white' : 'border-transparent text-zinc-500 hover:text-zinc-300'}"
+            on:click={() => activeTab = "settings"}>Settings</button>
         </nav>
 
         {#if activeTab === "events"}
@@ -124,6 +128,8 @@
           <AdminArticles />
         {:else if activeTab === "stats"}
           <AdminStats />
+        {:else if activeTab === "settings"}
+          <AdminSettings />
         {/if}
       </div>
     {/if}

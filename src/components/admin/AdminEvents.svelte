@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
   import Quill from "quill"
   import "quill/dist/quill.snow.css"
-  import { getAllEvents, saveEvent, deleteEvent } from "../../lib/admin.data"
+  import { getAllEvents, saveEvent, deleteEvent, featureAllMatches } from "../../lib/admin.data"
 
   let events = []
   let loading = true
@@ -109,11 +109,15 @@
               <p class="text-sm font-medium text-white truncate">{event.name}</p>
               <div class="mt-0.5 text-xs text-zinc-600 line-clamp-2">{@html event.description}</div>
             </div>
-            <div class="flex shrink-0 gap-2">
-              <button type="button" on:click={() => editEvent(event)}
-                class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-200">Edit</button>
-              <button type="button" on:click={() => handleEventDelete(event)}
-                class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-500 transition hover:border-rose-500/40 hover:text-rose-400">Delete</button>
+            <div class="flex shrink-0 flex-col items-end gap-2">
+              <div class="flex gap-2">
+                <button type="button" on:click={() => editEvent(event)}
+                  class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-400 transition hover:border-zinc-600 hover:text-zinc-200">Edit</button>
+                <button type="button" on:click={() => handleEventDelete(event)}
+                  class="rounded-md border border-zinc-800 px-3 py-1.5 text-xs text-zinc-500 transition hover:border-rose-500/40 hover:text-rose-400">Delete</button>
+              </div>
+              <button type="button" on:click={() => featureAllMatches(event.id)}
+                class="rounded-md border border-emerald-500/30 px-3 py-1.5 text-xs text-emerald-400 transition hover:border-emerald-500/60 hover:bg-emerald-500/10">Feature All</button>
             </div>
           </div>
         {/each}

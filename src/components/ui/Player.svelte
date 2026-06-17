@@ -1,101 +1,85 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import Hls from "hls.js";
+  import shaka from "shaka-player/dist/shaka-player.ui.js";
+  import "shaka-player/dist/controls.css";
 
+  shaka.polyfill.installAll();
+
+  let videoContainer: HTMLDivElement;
   let videoElement: HTMLVideoElement;
-  let hls: Hls | null = null;
+  let player: shaka.Player | null = null;
+  let ui: shaka.ui.Overlay | null = null;
   let intervalId: any;
+  let loading = false;
+  let errorMsg = "";
   export let streamUrl: string = "";
 
-  // Quality control states
-  let qualityLevels: any[] = [];
-  let currentQualityIndex: number = -1; // -1 means "Auto" mode
+  async function loadVideo(): Promise<void> {
+    if (!streamUrl || !videoElement || loading) return;
+    errorMsg = "";
+    loading = true;
 
-  function loadVideo(): void {
-    if (!streamUrl || !videoElement) return;
-
-    if (hls) {
-      hls.destroy();
-      hls = null;
+    if (ui) {
+      ui.destroy();
+      ui = null;
+    }
+    if (player) {
+      player.destroy();
+      player = null;
     }
 
-    if (Hls.isSupported()) {
-      hls = new Hls({
-        lowLatencyMode: true,
-        liveSyncDurationCount: 3,
-        liveMaxLatencyDurationCount: 5,
-        enableWorker: true,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 60,
-        abrEwmaFastLive: 3,
-        abrEwmaSlowLive: 9,
-      });
-
-      hls.loadSource(streamUrl);
-      hls.attachMedia(videoElement);
-
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        // 1. Fetch available quality streams once the file manifest loads
-        if (hls) {
-          qualityLevels = hls.levels;
-          currentQualityIndex = hls.currentLevel; // Reflect current level
-        }
-
-        videoElement
-          .play()
-          .catch((err) => console.log("Auto-play blocked or delayed:", err));
-      });
-
-      // Update the dropdown UI if Auto-Mode dynamically changes resolution tracks
-      hls.on(Hls.Events.LEVEL_SWITCHED, (event, data) => {
-        if (hls && hls.loadLevel === -1) {
-          // Only sync UI with adaptive changes if user is still on "Auto"
-          currentQualityIndex = -1;
-        }
-      });
-
-      hls.on(Hls.Events.ERROR, function (event, data) {
-        if (data.fatal) {
-          switch (data.type) {
-            case Hls.ErrorTypes.NETWORK_ERROR:
-              hls?.startLoad();
-              break;
-            case Hls.ErrorTypes.MEDIA_ERROR:
-              hls?.recoverMediaError();
-              break;
-            default:
-              loadVideo();
-              break;
-          }
-        }
-      });
-    } else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
-      videoElement.src = streamUrl;
+    if (!shaka.Player.isBrowserSupported()) {
+      videoElement.setAttribute("controls", "");
+      loading = false;
+      return;
     }
-  }
 
-  // Handle manual resolution changes from user selection
-  function handleQualityChange(event: Event) {
-    const target = event.target as HTMLSelectElement;
-    const levelIndex = parseInt(target.value, 10);
+    try {
+      player = new shaka.Player();
+      await player.attach(videoElement, false);
 
-    if (hls) {
-      currentQualityIndex = levelIndex;
-      // hls.currentLevel sets the variant index immediately
-      hls.currentLevel = levelIndex;
+      player.configure({
+        streaming: {
+          liveSync: {
+            enabled: true,
+            targetLatency: 5,
+            targetLatencyTolerance: 2,
+          },
+        },
+      });
+
+      await player.load(streamUrl);
+
+      ui = new shaka.ui.Overlay(player, videoContainer, videoElement);
+
+      ui.configure({
+        overflowMenuButtons: ['playback_rate', 'quality'],
+      });
+
+      videoElement.removeAttribute("controls");
+      await videoElement.play().catch(() => {});
+    } catch (err) {
+      videoElement.setAttribute("controls", "");
+      errorMsg = "Stream unavailable. The server may be offline or blocked by CORS policy.";
+      console.error("shaka-player setup error:", err);
+    } finally {
+      loading = false;
     }
   }
 
   function startLatencyMonitor() {
     clearInterval(intervalId);
     intervalId = setInterval(() => {
-      if (!hls || !videoElement || videoElement.paused) return;
-      const latency = hls.latency;
+      if (!player || !videoElement || videoElement.paused) return;
+      if (!player.isLive()) return;
+
+      const range = player.seekRange();
+      const latency = range.end - videoElement.currentTime;
+
       if (latency > 6 && latency < 12) {
         videoElement.playbackRate = 1.15;
       } else if (latency >= 12) {
-        videoElement.currentTime =
-          hls.liveSyncPosition ?? videoElement.duration;
+        videoElement.currentTime = range.end;
         videoElement.playbackRate = 1.0;
       } else {
         videoElement.playbackRate = 1.0;
@@ -104,17 +88,18 @@
   }
 
   onMount(() => {
-    loadVideo();
+    if (streamUrl && videoElement) loadVideo();
     startLatencyMonitor();
   });
 
-  $: if (streamUrl && videoElement) {
+  $: if (streamUrl) {
     loadVideo();
   }
 
   onDestroy(() => {
     clearInterval(intervalId);
-    if (hls) hls.destroy();
+    if (ui) ui.destroy();
+    if (player) player.destroy();
   });
 </script>
 
@@ -122,37 +107,12 @@
   <div
     class="w-full md:max-w-2xl overflow-hidden border border-white/10 bg-black shadow-xl"
   >
-    <!-- Top Bar Navigation Panel -->
     <div
       class="flex items-center justify-between bg-black/80 px-3 py-1.5 border-b border-white/10"
     >
       <span class="action-label text-zinc-400">worldcup2026live.xyz</span>
 
       <div class="flex items-center gap-3">
-        <!-- Quality Selection Dropdown Control UI -->
-        {#if qualityLevels.length > 0}
-          <div class="flex items-center gap-1">
-            <label for="quality-select" class="text-xs text-zinc-500">HQ:</label
-            >
-            <select
-              id="quality-select"
-              class="bg-zinc-900 border border-white/20 text-zinc-300 text-xs rounded px-1 py-0.5 outline-none cursor-pointer focus:border-red-500"
-              value={currentQualityIndex}
-              on:change={handleQualityChange}
-            >
-              <option value={-1}>Auto</option>
-              {#each qualityLevels as level, index}
-                <option value={index}>
-                  {level.height ? `${level.height}p` : `Track ${index + 1}`}
-                  {level.bitrate
-                    ? `(${Math.round(level.bitrate / 1000)} kbps)`
-                    : ""}
-                </option>
-              {/each}
-            </select>
-          </div>
-        {/if}
-
         <div class="flex items-center gap-1.5">
           <div class="h-1.5 w-1.5 animate-pulse bg-red-500"></div>
           <span class="action-label text-zinc-500">Live</span>
@@ -160,14 +120,21 @@
       </div>
     </div>
 
-    <!-- Video Frame Element -->
-    <video
-      bind:this={videoElement}
-      controls
-      playsinline
-      class="aspect-video w-full bg-black shadow-inner"
-    >
-      <track kind="captions" />
-    </video>
+    <div bind:this={videoContainer} class="relative">
+      <video
+        bind:this={videoElement}
+        controls
+        autoplay
+        playsinline
+        class="aspect-video w-full bg-black shadow-inner"
+      >
+        <track kind="captions" />
+      </video>
+      {#if errorMsg}
+        <div class="absolute bottom-0 left-0 right-0 bg-red-900/80 px-3 py-2 text-xs text-red-200 text-center">
+          {errorMsg}
+        </div>
+      {/if}
+    </div>
   </div>
 </div>

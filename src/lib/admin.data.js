@@ -113,3 +113,36 @@ export const deleteArticle = async (articleId) => {
   if (!db) throw new Error("Firestore not initialized");
   await deleteDoc(doc(db, "articles", articleId));
 };
+
+export const featureAllMatches = async (eventId) => {
+  if (!db) throw new Error("Firestore not initialized");
+  const snapshot = await getDocs(collection(db, "events", eventId, "matches"));
+  const promises = snapshot.docs.map((docSnap) =>
+    updateDoc(doc(db, "events", eventId, "matches", docSnap.id), {
+      featured: true,
+      updatedAt: serverTimestamp(),
+    })
+  );
+  await Promise.all(promises);
+};
+
+export const getHeroEnabled = async () => {
+  if (!db) return true;
+  try {
+    const snap = await getDoc(doc(db, "settings", "general"));
+    if (snap.exists()) {
+      return snap.data().heroEnabled !== false;
+    }
+  } catch (e) {
+    console.error("Error reading hero setting:", e);
+  }
+  return true;
+};
+
+export const saveHeroEnabled = async (enabled) => {
+  if (!db) throw new Error("Firestore not initialized");
+  await setDoc(doc(db, "settings", "general"), {
+    heroEnabled: enabled,
+    updatedAt: serverTimestamp(),
+  }, { merge: true });
+};
